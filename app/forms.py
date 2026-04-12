@@ -12,7 +12,8 @@ class MovieForm(FlaskForm):
         'Upload An Image',
         validators =[FileRequired(), FileAllowed(['jpg', 'jpeg','png'],'Only Images Allowed!')
         ])
-        
+
+
     
 
     
