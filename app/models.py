@@ -1,14 +1,15 @@
 # Add any model classes for Flask-SQLAlchemy here
 from . import db
+from datetime import datetime
 
-class MovieDetails(db.Model):
+class Movie(db.Model):
     #Movie Database Table class initializing 
     #Table name specified is "movies" to store columns:
         #id (integer)
         #title (string)
         #description (text)
         #poster (string)
-        #created_at (date time)
+        #created_at (date/time)
     __tablename__ = 'movies'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -18,11 +19,14 @@ class MovieDetails(db.Model):
     created_at= db.Column(db.DateTime, default=datetime.utcnow)
 
     #init method
-     def __init__(self, title, description, poster, created_at):
+    def __init__(self, title, description, poster):
         self.title = title
         self.description = description
         self.poster = poster
-        self.created_at = created_at
+        #self.created_at = created_at
+
+    def __repr__(self):
+        return f"<Movie {self.title}>"
 
     
 
