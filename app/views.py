@@ -6,7 +6,7 @@ This file creates your application.
 """
 
 from app import app, db
-from flask import render_template, request, jsonify, send_file, redirect, url_for
+from flask import render_template, request, jsonify, send_file, redirect, url_for, send_from_directory
 from flask_wtf.csrf import generate_csrf
 import os
 from werkzeug.utils import secure_filename
@@ -21,9 +21,11 @@ from app.forms import MovieForm
 def index():
     return jsonify(message="This is the beginning of our API")
 
+#POST method for this route
 @app.route('/api/v1/movies', methods=['POST'])
 def movies():
     #instantiating movie form
+
     form = MovieForm()
 
     if form.validate_on_submit():
@@ -54,6 +56,28 @@ def movies():
             "errors": form_errors(form)
         }), 400
 
+#new endpoint for GET Method:
+@app.route('/api/v1/movies', methods=['GET'])
+def add_movies():
+    all_movies = Movie.query.all()
+    movies_list = []
+
+    for movie in all_movies:
+        movies_list.append({
+            "id": movie.id,
+            "title": movie.title,
+            "description": movie.description,
+            "poster": f"/api/v1/posters/{movie.poster}"
+        })
+
+    return jsonify({
+        "movies": movies_list
+    })
+
+@app.route('/api/v1/posters/<filename>', methods=['GET'])
+def get_poster(filename):
+    upload_folder = app.config['UPLOAD_FOLDER']
+    return send_from_directory(upload_folder, filename)
 
 #API route to Generate the CSRF token
 @app.route('/api/v1/csrf-token', methods=['GET'])
