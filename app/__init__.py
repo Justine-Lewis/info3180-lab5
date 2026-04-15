@@ -8,13 +8,13 @@ from flask_wtf.csrf import CSRFProtect
 
 
 app = Flask(__name__)
-csrf = CSRFProtect(app)
 app.config.from_object(Config)
 
 
 db = SQLAlchemy(app)
 # Instantiate Flask-Migrate library here
 migrate = Migrate(app, db)
+csrf = CSRFProtect(app)
 
 from app import views
 from app import models

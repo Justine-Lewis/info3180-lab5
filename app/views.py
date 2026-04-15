@@ -58,7 +58,7 @@ def movies():
 #API route to Generate the CSRF token
 @app.route('/api/v1/csrf-token', methods=['GET'])
 def get_csrf():
- return jsonify({'csrf_token': generate_csrf()})
+    return jsonify({'csrf_token': generate_csrf()})
 
 
 

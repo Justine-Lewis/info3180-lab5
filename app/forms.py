@@ -4,7 +4,7 @@ from wtforms import StringField, TextAreaField, SubmitField
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from wtforms.validators import InputRequired
 
-#UploadForm class, Accepts only jpg,jpeg,png files to be uploaded
+#MovieForm class, Accepts only jpg,jpeg,png files to be uploaded
 class MovieForm(FlaskForm):
     title = StringField('Movie Title', validators=[InputRequired()])
     description = TextAreaField('Description',validators=[InputRequired()])

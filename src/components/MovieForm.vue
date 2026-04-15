@@ -81,13 +81,16 @@ function saveMovie() {
 
     fetch("/api/v1/movies", {
         method: 'POST',
-        body: form_data
+        body: form_data,
         headers: {
             'X-CSRFToken': csrf_token.value
         } 
     })
-    .then(function (response) {
-        return response.json();
+    .then(async function (response) {
+    const data = await response.json();
+    console.log("Status:", response.status);
+    console.log("Response data:", data);
+    return data;
     })
     .then(function (data) {
     // display a success message
