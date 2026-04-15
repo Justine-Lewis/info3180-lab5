@@ -14,7 +14,7 @@
             </ul>
         </div>
 
-        <form @submit.prevent="saveMovie" enctype="multipart/form-data">
+        <form id="movieForm" @submit.prevent="saveMovie" enctype="multipart/form-data">
             <div class="form-group mb-3">
                 <label for="title" class="form-label">Movie Title</label>
                 <input
@@ -74,14 +74,12 @@ function handleFileUpload(event) {
 
 //required function (based on your instructions)
 function saveMovie() {
-    let formData = new FormData();
-    formData.append('title', title.value);
-    formData.append('description', description.value);
-    formData.append('poster', poster.value);
+    let movieForm = document.getElementById('movieForm');
+    let form_data = new FormData(movieForm);
 
     fetch("/api/v1/movies", {
         method: 'POST',
-        body: formData
+        body: form_data
     })
     .then(function (response) {
         return response.json();
@@ -102,6 +100,8 @@ function saveMovie() {
             title.value='';
             description.value = '';
             poster.value = null;
+
+            movieForm.reset();
         }
     })
     .catch(function (error) {
