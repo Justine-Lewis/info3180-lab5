@@ -58,7 +58,9 @@
 
 <script setup>
 //importing reactive variable function from Vue
-import {ref} from 'vue'
+//importing onMounted lifecycle hook for getCsrfToken()
+import {ref, onMounted} from 'vue';
+let csrf_token = ref(""); 
 
 //creating reactive variables 
 const title = ref('');
@@ -80,6 +82,9 @@ function saveMovie() {
     fetch("/api/v1/movies", {
         method: 'POST',
         body: form_data
+        headers: {
+            'X-CSRFToken': csrf_token.value
+        } 
     })
     .then(function (response) {
         return response.json();
@@ -110,6 +115,23 @@ function saveMovie() {
         message.value = '';
     });
 }
+
+//function for getting CSRF token 
+function getCsrfToken() {
+    fetch('/api/v1/csrf-token')
+    .then((response) => response.json())
+        .then((data) => {
+            console.log(data);
+            csrf_token.value = data.csrf_token;
+    })
+ }
+
+//onMounted function placed after functions are fully defined
+
+onMounted(() => {
+    getCsrfToken();
+});
+
 </script>
 
 
